@@ -1,0 +1,1818 @@
+openapi: 3.0.0
+info:
+  title: Service for namespace ZUTILS_SYSTEM_WATCH_SRV
+  version: 1.0.0
+  description: |-
+    This service is located at [https://services.OData.org/service-root/](https://services.OData.org/service-root/)
+
+    ## Entity Data Model
+    ![ER Diagram](https://yuml.me/diagram/class/[st22Summary{bg:orange}],[st22Summary]-*>[st22Daily{bg:orange}],[st22Daily{bg:orange}],[tableCallsTableBased{bg:orange}],[jobsStatus{bg:orange}],[jobsStatus]-*>[jobsDetails{bg:orange}],[jobsDetails{bg:orange}],[jobsDetails]-*>[jobsStatus{bg:orange}],[workProcesses{bg:orange}],[TableCallsTotals{bg:orange}],[st22SummarySet{bg:dodgerblue}]++-*>[st22Summary],[st22DailySet{bg:dodgerblue}]++-*>[st22Daily],[TableCallsTableBasedSet{bg:dodgerblue}]++-*>[tableCallsTableBased],[jobsStatusSet{bg:dodgerblue}]++-*>[jobsStatus],[jobsDetailsSet{bg:dodgerblue}]++-*>[jobsDetails],[workProcessesSet{bg:dodgerblue}]++-*>[workProcesses],[TableCallsTotalsSet{bg:dodgerblue}]++-*>[TableCallsTotals])
+
+    ### Legend
+    ![Legend](https://yuml.me/diagram/plain;dir:TB;scale:60/class/[External.Type{bg:whitesmoke}],[ComplexType],[EntityType{bg:orange}],[EntitySet/Singleton/Operation{bg:dodgerblue}])
+servers:
+  - url: https://services.OData.org/service-root
+tags:
+  - name: st22SummarySet
+  - name: st22DailySet
+  - name: TableCallsTableBasedSet
+  - name: jobsStatusSet
+  - name: jobsDetailsSet
+  - name: workProcessesSet
+  - name: TableCallsTotalsSet
+paths:
+  /st22SummarySet:
+    get:
+      summary: Get entities from st22SummarySet
+      tags:
+        - st22SummarySet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values, see [Sorting](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=65)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Datum desc
+                - Modno
+                - Modno desc
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Modno
+                - st22Daily
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - st22Daily
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of st22Summary
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Summary'
+        4XX:
+          $ref: '#/components/responses/error'
+  /st22SummarySet(datetime'{Datum}'):
+    parameters:
+      - name: Datum
+        in: path
+        required: true
+        description: Güncel tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+    get:
+      summary: Get entity from st22SummarySet by key
+      tags:
+        - st22SummarySet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Modno
+                - st22Daily
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - st22Daily
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: st22Summary
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Summary'
+        4XX:
+          $ref: '#/components/responses/error'
+  /st22SummarySet(datetime'{Datum}')/st22Daily:
+    parameters:
+      - name: Datum
+        in: path
+        required: true
+        description: Güncel tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+    get:
+      summary: Get entities from related st22Daily
+      tags:
+        - st22SummarySet
+        - st22DailySet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values, see [Sorting](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=65)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Datum desc
+                - Uzeit
+                - Uzeit desc
+                - Ahost
+                - Ahost desc
+                - Uname
+                - Uname desc
+                - Mandt
+                - Mandt desc
+                - Xhold
+                - Xhold desc
+                - Errorid
+                - Errorid desc
+                - Rexception
+                - Rexception desc
+                - Component
+                - Component desc
+                - Devobject
+                - Devobject desc
+                - Gprogram
+                - Gprogram desc
+                - Modno
+                - Modno desc
+                - Tid
+                - Tid desc
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Uzeit
+                - Ahost
+                - Uname
+                - Mandt
+                - Xhold
+                - Errorid
+                - Rexception
+                - Component
+                - Devobject
+                - Gprogram
+                - Modno
+                - Tid
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of st22Daily
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Daily'
+        4XX:
+          $ref: '#/components/responses/error'
+  /st22DailySet:
+    get:
+      summary: Get entities from st22DailySet
+      tags:
+        - st22DailySet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $orderby
+          in: query
+          description: Order items by property values, see [Sorting](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=65)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Datum desc
+                - Uzeit
+                - Uzeit desc
+                - Ahost
+                - Ahost desc
+                - Uname
+                - Uname desc
+                - Mandt
+                - Mandt desc
+                - Xhold
+                - Xhold desc
+                - Errorid
+                - Errorid desc
+                - Rexception
+                - Rexception desc
+                - Component
+                - Component desc
+                - Devobject
+                - Devobject desc
+                - Gprogram
+                - Gprogram desc
+                - Modno
+                - Modno desc
+                - Tid
+                - Tid desc
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Uzeit
+                - Ahost
+                - Uname
+                - Mandt
+                - Xhold
+                - Errorid
+                - Rexception
+                - Component
+                - Devobject
+                - Gprogram
+                - Modno
+                - Tid
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of st22Daily
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Daily'
+        4XX:
+          $ref: '#/components/responses/error'
+  /st22DailySet(Datum=datetime'{Datum}',Uzeit=time'{Uzeit}'):
+    parameters:
+      - name: Datum
+        in: path
+        required: true
+        description: Güncel tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+      - name: Uzeit
+        in: path
+        required: true
+        description: Saat
+        schema:
+          type: string
+          example: PT15H51M04S
+    get:
+      summary: Get entity from st22DailySet by key
+      tags:
+        - st22DailySet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Datum
+                - Uzeit
+                - Ahost
+                - Uname
+                - Mandt
+                - Xhold
+                - Errorid
+                - Rexception
+                - Component
+                - Devobject
+                - Gprogram
+                - Modno
+                - Tid
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: st22Daily
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Daily'
+        4XX:
+          $ref: '#/components/responses/error'
+  /TableCallsTableBasedSet:
+    get:
+      summary: Get entities from TableCallsTableBasedSet
+      tags:
+        - TableCallsTableBasedSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Tabname
+                - Sdate
+                - Edate
+                - Datum
+                - Cnt
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of tableCallsTableBased
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.tableCallsTableBased'
+        4XX:
+          $ref: '#/components/responses/error'
+  /TableCallsTableBasedSet(Tabname='{Tabname}',Sdate=datetime'{Sdate}',Edate=datetime'{Edate}'):
+    parameters:
+      - name: Tabname
+        in: path
+        required: true
+        description: Table Name
+        schema:
+          type: string
+          maxLength: 16
+      - name: Sdate
+        in: path
+        required: true
+        description: Gçrl.bşl.
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+      - name: Edate
+        in: path
+        required: true
+        description: Son tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+    get:
+      summary: Get entity from TableCallsTableBasedSet by key
+      tags:
+        - TableCallsTableBasedSet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Tabname
+                - Sdate
+                - Edate
+                - Datum
+                - Cnt
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: tableCallsTableBased
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.tableCallsTableBased'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsStatusSet:
+    get:
+      summary: Get entities from jobsStatusSet
+      tags:
+        - jobsStatusSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Cnt
+                - Average
+                - jobsDetailsSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsDetailsSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of jobsStatus
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsStatus'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsStatusSet(Status='{Status}',Sdate=datetime'{Sdate}',Edate=datetime'{Edate}'):
+    parameters:
+      - name: Status
+        in: path
+        required: true
+        description: Durum
+        schema:
+          type: string
+          maxLength: 1
+      - name: Sdate
+        in: path
+        required: true
+        description: Gçrl.bşl.
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+      - name: Edate
+        in: path
+        required: true
+        description: Son tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+    get:
+      summary: Get entity from jobsStatusSet by key
+      tags:
+        - jobsStatusSet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Cnt
+                - Average
+                - jobsDetailsSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsDetailsSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: jobsStatus
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsStatus'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsStatusSet(Status='{Status}',Sdate=datetime'{Sdate}',Edate=datetime'{Edate}')/jobsDetailsSet:
+    parameters:
+      - name: Status
+        in: path
+        required: true
+        description: Durum
+        schema:
+          type: string
+          maxLength: 1
+      - name: Sdate
+        in: path
+        required: true
+        description: Gçrl.bşl.
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+      - name: Edate
+        in: path
+        required: true
+        description: Son tarih
+        schema:
+          type: string
+          pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}T([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9](\.[0-9]+)?)?$
+          example: 2017-04-13T23:59
+    get:
+      summary: Get entities from related jobsDetailsSet
+      tags:
+        - jobsStatusSet
+        - jobsDetailsSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Jobname
+                - Strtdate
+                - Strttime
+                - Enddate
+                - Endtime
+                - Diff
+                - Cnt
+                - jobsStatusSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsStatusSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of jobsDetails
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsDetails'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsDetailsSet:
+    get:
+      summary: Get entities from jobsDetailsSet
+      tags:
+        - jobsDetailsSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Jobname
+                - Strtdate
+                - Strttime
+                - Enddate
+                - Endtime
+                - Diff
+                - Cnt
+                - jobsStatusSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsStatusSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of jobsDetails
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsDetails'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsDetailsSet(Status='{Status}',Jobname='{Jobname}'):
+    parameters:
+      - name: Status
+        in: path
+        required: true
+        description: Durum
+        schema:
+          type: string
+          maxLength: 1
+      - name: Jobname
+        in: path
+        required: true
+        description: İş adı
+        schema:
+          type: string
+          maxLength: 32
+    get:
+      summary: Get entity from jobsDetailsSet by key
+      tags:
+        - jobsDetailsSet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Jobname
+                - Strtdate
+                - Strttime
+                - Enddate
+                - Endtime
+                - Diff
+                - Cnt
+                - jobsStatusSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsStatusSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: jobsDetails
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsDetails'
+        4XX:
+          $ref: '#/components/responses/error'
+  /jobsDetailsSet(Status='{Status}',Jobname='{Jobname}')/jobsStatusSet:
+    parameters:
+      - name: Status
+        in: path
+        required: true
+        description: Durum
+        schema:
+          type: string
+          maxLength: 1
+      - name: Jobname
+        in: path
+        required: true
+        description: İş adı
+        schema:
+          type: string
+          maxLength: 32
+    get:
+      summary: Get entities from related jobsStatusSet
+      tags:
+        - jobsDetailsSet
+        - jobsStatusSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Status
+                - Statusdescr
+                - Sdate
+                - Edate
+                - Cnt
+                - Average
+                - jobsDetailsSet
+        - name: $expand
+          in: query
+          description: Expand related entities, see [Expand](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=63)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - jobsDetailsSet
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of jobsStatus
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsStatus'
+        4XX:
+          $ref: '#/components/responses/error'
+  /workProcessesSet:
+    get:
+      summary: Get entities from workProcessesSet
+      tags:
+        - workProcessesSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - WpServer
+                - WpBnamemaxcnt
+                - Running
+                - WpTyp
+                - Waiting
+                - Cnt
+                - WpBnamemax
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of workProcesses
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.workProcesses'
+        4XX:
+          $ref: '#/components/responses/error'
+  /workProcessesSet(WpServer='{WpServer}',WpTyp='{WpTyp}'):
+    parameters:
+      - name: WpServer
+        in: path
+        required: true
+        description: Sunucu adı
+        schema:
+          type: string
+          maxLength: 20
+      - name: WpTyp
+        in: path
+        required: true
+        description: Proses tipi
+        schema:
+          type: string
+          maxLength: 3
+    get:
+      summary: Get entity from workProcessesSet by key
+      tags:
+        - workProcessesSet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - WpServer
+                - WpBnamemaxcnt
+                - Running
+                - WpTyp
+                - Waiting
+                - Cnt
+                - WpBnamemax
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: workProcesses
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.workProcesses'
+        4XX:
+          $ref: '#/components/responses/error'
+  /TableCallsTotalsSet:
+    get:
+      summary: Get entities from TableCallsTotalsSet
+      tags:
+        - TableCallsTotalsSet
+      parameters:
+        - name: $filter
+          in: query
+          description: Filter items by property values, see [Filtering](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=64)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/count'
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Tabname
+                - Date01
+                - Date02
+                - Date03
+                - Date04
+                - Date05
+                - Date06
+                - Date07
+                - Date08
+                - Date09
+                - Date10
+                - Date11
+                - Date12
+                - Date13
+                - Date14
+                - Date15
+                - Date16
+                - Date17
+                - Date18
+                - Date19
+                - Date20
+                - Date21
+                - Date22
+                - Date23
+                - Date24
+                - Date25
+                - Date26
+                - Date27
+                - Date28
+                - Date29
+                - Date30
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entities
+          content:
+            application/json:
+              schema:
+                title: Wrapper
+                type: object
+                properties:
+                  d:
+                    title: Collection of TableCallsTotals
+                    type: object
+                    properties:
+                      __count:
+                        $ref: '#/components/schemas/count'
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.TableCallsTotals'
+        4XX:
+          $ref: '#/components/responses/error'
+  /TableCallsTotalsSet('{Tabname}'):
+    parameters:
+      - name: Tabname
+        in: path
+        required: true
+        description: Tablo adı
+        schema:
+          type: string
+          maxLength: 30
+    get:
+      summary: Get entity from TableCallsTotalsSet by key
+      tags:
+        - TableCallsTotalsSet
+      parameters:
+        - name: $select
+          in: query
+          description: Select properties to be returned, see [Select](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=68)
+          explode: false
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+              enum:
+                - Tabname
+                - Date01
+                - Date02
+                - Date03
+                - Date04
+                - Date05
+                - Date06
+                - Date07
+                - Date08
+                - Date09
+                - Date10
+                - Date11
+                - Date12
+                - Date13
+                - Date14
+                - Date15
+                - Date16
+                - Date17
+                - Date18
+                - Date19
+                - Date20
+                - Date21
+                - Date22
+                - Date23
+                - Date24
+                - Date25
+                - Date26
+                - Date27
+                - Date28
+                - Date29
+                - Date30
+        - name: $format
+          in: query
+          description: 'The format of the response. Supported values: json, xml'
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retrieved entity
+          content:
+            application/json:
+              schema:
+                title: TableCallsTotals
+                type: object
+                properties:
+                  d:
+                    $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.TableCallsTotals'
+        4XX:
+          $ref: '#/components/responses/error'
+  /$batch:
+    post:
+      summary: Send a group of requests
+      description: |-
+        Group multiple requests into a single request payload, see [Batch Requests](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=152).
+
+        *Please note that "Try it out" is not supported for this request.*
+      tags:
+        - Batch Requests
+      requestBody:
+        required: true
+        description: Batch request
+        content:
+          multipart/mixed;boundary=request-separator:
+            schema:
+              type: string
+            example: |-
+              --request-separator
+              Content-Type: application/http
+              Content-Transfer-Encoding: binary
+
+              GET st22SummarySet HTTP/1.1
+              Accept: application/json
+
+
+              --request-separator--
+      responses:
+        '202':
+          description: Batch response
+          content:
+            multipart/mixed:
+              schema:
+                type: string
+              example: |-
+                --response-separator
+                Content-Type: application/http
+
+                HTTP/1.1 200 OK
+                Content-Type: application/json
+
+                {...}
+                --response-separator--
+        4XX:
+          $ref: '#/components/responses/error'
+components:
+  schemas:
+    ZUTILS_SYSTEM_WATCH_SRV.st22Summary:
+      type: object
+      properties:
+        Datum:
+          type: string
+          example: /Date(1492098664000)/
+          title: Güncel tarih
+        Modno:
+          type: integer
+          nullable: true
+          format: int32
+          title: Work Process Index
+        st22Daily:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Daily'
+      title: st22Summary
+    ZUTILS_SYSTEM_WATCH_SRV.st22Summary-create:
+      type: object
+      properties:
+        st22Daily:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.st22Daily-create'
+      title: st22Summary (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.st22Summary-update:
+      type: object
+      title: st22Summary (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.st22Daily:
+      type: object
+      properties:
+        Datum:
+          type: string
+          example: /Date(1492098664000)/
+          title: Güncel tarih
+        Uzeit:
+          type: string
+          example: PT15H51M04S
+          title: Saat
+        Ahost:
+          type: string
+          nullable: true
+          maxLength: 32
+          title: Uyg.sunucusu
+        Uname:
+          type: string
+          nullable: true
+          maxLength: 12
+          title: Kullanıcı adı
+        Mandt:
+          type: string
+          nullable: true
+          maxLength: 3
+          title: Üst birim tanıtıcısı
+        Xhold:
+          type: string
+          nullable: true
+          maxLength: 1
+          title: Keep
+        Errorid:
+          type: string
+          nullable: true
+          maxLength: 30
+          title: Runtime Error
+        Rexception:
+          type: string
+          nullable: true
+          maxLength: 30
+          title: Exception
+        Component:
+          type: string
+          nullable: true
+          maxLength: 40
+          title: Applic. Component
+        Devobject:
+          type: string
+          nullable: true
+          maxLength: 40
+          title: Object Name
+        Gprogram:
+          type: string
+          nullable: true
+          maxLength: 40
+          title: Program Name
+        Modno:
+          type: integer
+          nullable: true
+          format: int32
+          title: Work Process Index
+        Tid:
+          type: string
+          nullable: true
+          maxLength: 32
+          title: Transaction ID
+      title: st22Daily
+    ZUTILS_SYSTEM_WATCH_SRV.st22Daily-create:
+      type: object
+      title: st22Daily (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.st22Daily-update:
+      type: object
+      title: st22Daily (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.tableCallsTableBased:
+      type: object
+      properties:
+        Tabname:
+          type: string
+          maxLength: 16
+          title: Table Name
+        Sdate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Gçrl.bşl.
+        Edate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Son tarih
+        Datum:
+          type: string
+          nullable: true
+          example: /Date(1492098664000)/
+          title: Tarih
+        Cnt:
+          type: integer
+          nullable: true
+          format: int32
+          title: INT4
+      title: tableCallsTableBased
+    ZUTILS_SYSTEM_WATCH_SRV.tableCallsTableBased-create:
+      type: object
+      title: tableCallsTableBased (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.tableCallsTableBased-update:
+      type: object
+      title: tableCallsTableBased (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.jobsStatus:
+      type: object
+      properties:
+        Status:
+          type: string
+          maxLength: 1
+          title: Durum
+        Statusdescr:
+          type: string
+          maxLength: 40
+          title: Statü
+        Sdate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Gçrl.bşl.
+        Edate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Son tarih
+        Cnt:
+          type: integer
+          format: int32
+          title: Kayıt Sayısı
+        Average:
+          type: integer
+          format: int32
+          title: Ortalama
+        jobsDetailsSet:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsDetails'
+      title: jobsStatus
+    ZUTILS_SYSTEM_WATCH_SRV.jobsStatus-create:
+      type: object
+      properties:
+        jobsDetailsSet:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsDetails-create'
+      title: jobsStatus (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.jobsStatus-update:
+      type: object
+      title: jobsStatus (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.jobsDetails:
+      type: object
+      properties:
+        Status:
+          type: string
+          maxLength: 1
+          title: Durum
+        Statusdescr:
+          type: string
+          maxLength: 15
+          title: Statü
+        Sdate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Gçrl.bşl.
+        Edate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Son tarih
+        Jobname:
+          type: string
+          maxLength: 32
+          title: İş adı
+        Strtdate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Execution Date
+        Strttime:
+          type: string
+          example: PT15H51M04S
+          title: Execution Date
+        Enddate:
+          type: string
+          example: /Date(1492098664000)/
+          title: Execution Date
+        Endtime:
+          type: string
+          example: PT15H51M04S
+          title: Execution Date
+        Diff:
+          type: integer
+          format: int32
+          title: INT4
+        Cnt:
+          type: integer
+          format: int32
+          title: INT4
+        jobsStatusSet:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsStatus'
+      title: jobsDetails
+    ZUTILS_SYSTEM_WATCH_SRV.jobsDetails-create:
+      type: object
+      properties:
+        jobsStatusSet:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/ZUTILS_SYSTEM_WATCH_SRV.jobsStatus-create'
+      title: jobsDetails (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.jobsDetails-update:
+      type: object
+      title: jobsDetails (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.workProcesses:
+      type: object
+      properties:
+        WpServer:
+          type: string
+          maxLength: 20
+          title: Sunucu adı
+        WpBnamemaxcnt:
+          type: integer
+          format: int32
+          title: Max User İşlem Sayı
+        Running:
+          type: integer
+          format: int32
+          title: Etkin İş Sayısı
+        WpTyp:
+          type: string
+          maxLength: 3
+          title: Proses tipi
+        Waiting:
+          type: integer
+          format: int32
+          title: Serbest İş Sayısı
+        Cnt:
+          type: integer
+          format: int32
+          title: Toplam Sayı
+        WpBnamemax:
+          type: string
+          maxLength: 12
+          title: Max User
+      title: workProcesses
+    ZUTILS_SYSTEM_WATCH_SRV.workProcesses-create:
+      type: object
+      title: workProcesses (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.workProcesses-update:
+      type: object
+      title: workProcesses (for update)
+    ZUTILS_SYSTEM_WATCH_SRV.TableCallsTotals:
+      type: object
+      properties:
+        Tabname:
+          type: string
+          maxLength: 30
+          title: Tablo adı
+        Date01:
+          type: integer
+          format: int32
+          title: INT4
+        Date02:
+          type: integer
+          format: int32
+          title: INT4
+        Date03:
+          type: integer
+          format: int32
+          title: INT4
+        Date04:
+          type: integer
+          format: int32
+          title: INT4
+        Date05:
+          type: integer
+          format: int32
+          title: INT4
+        Date06:
+          type: integer
+          format: int32
+          title: INT4
+        Date07:
+          type: integer
+          format: int32
+          title: INT4
+        Date08:
+          type: integer
+          format: int32
+          title: INT4
+        Date09:
+          type: integer
+          format: int32
+          title: INT4
+        Date10:
+          type: integer
+          format: int32
+          title: INT4
+        Date11:
+          type: integer
+          format: int32
+          title: INT4
+        Date12:
+          type: integer
+          format: int32
+          title: INT4
+        Date13:
+          type: integer
+          format: int32
+          title: INT4
+        Date14:
+          type: integer
+          format: int32
+          title: INT4
+        Date15:
+          type: integer
+          format: int32
+          title: INT4
+        Date16:
+          type: integer
+          format: int32
+          title: INT4
+        Date17:
+          type: integer
+          format: int32
+          title: INT4
+        Date18:
+          type: integer
+          format: int32
+          title: INT4
+        Date19:
+          type: integer
+          format: int32
+          title: INT4
+        Date20:
+          type: integer
+          format: int32
+          title: INT4
+        Date21:
+          type: integer
+          format: int32
+          title: INT4
+        Date22:
+          type: integer
+          format: int32
+          title: INT4
+        Date23:
+          type: integer
+          format: int32
+          title: INT4
+        Date24:
+          type: integer
+          format: int32
+          title: INT4
+        Date25:
+          type: integer
+          format: int32
+          title: INT4
+        Date26:
+          type: integer
+          format: int32
+          title: INT4
+        Date27:
+          type: integer
+          format: int32
+          title: INT4
+        Date28:
+          type: integer
+          format: int32
+          title: INT4
+        Date29:
+          type: integer
+          format: int32
+          title: INT4
+        Date30:
+          type: integer
+          format: int32
+          title: INT4
+      title: TableCallsTotals
+    ZUTILS_SYSTEM_WATCH_SRV.TableCallsTotals-create:
+      type: object
+      title: TableCallsTotals (for create)
+    ZUTILS_SYSTEM_WATCH_SRV.TableCallsTotals-update:
+      type: object
+      title: TableCallsTotals (for update)
+    count:
+      type: string
+      description: The number of entities in the collection. Available when using the [$inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67) query option.
+    error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+            message:
+              type: object
+              required:
+                - lang
+                - value
+              properties:
+                lang:
+                  type: string
+                value:
+                  type: string
+            innererror:
+              type: object
+              description: The structure of this object is service-specific
+  parameters:
+    top:
+      name: $top
+      in: query
+      description: Show only the first n items, see [Paging - Top](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=66)
+      schema:
+        type: integer
+        minimum: 0
+      example: 50
+    skip:
+      name: $skip
+      in: query
+      description: Skip the first n items, see [Paging - Skip](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=65)
+      schema:
+        type: integer
+        minimum: 0
+    count:
+      name: $inlinecount
+      in: query
+      description: Include count of items, see [Inlinecount](https://help.sap.com/doc/5890d27be418427993fafa6722cdc03b/Cloud/en-US/OdataV2.pdf#page=67)
+      schema:
+        type: string
+        enum:
+          - allpages
+          - none
+  responses:
+    error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
